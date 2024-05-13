@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canola Nutrient and Fertilizer Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            color: #000;
+        }
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px; /* Increased padding */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .logo {
+            max-width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #000000;
+            font-size: 24px; /* Increased font size */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        input[type="number"], input[type="number"]::placeholder {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 0;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: transparent;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-bottom-color: #28a745;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        h2, h3 {
+            color: #000000;
+            margin-top: 0;
+        }
+        .result {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .nutrient {
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            width: calc(33.33% - 20px);
+            flex: 1 1 calc(33.33% - 20px);
+            margin-right: 20px;
+        }
+        .vstack {
+            display: flex;
+            flex-direction: column;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 40px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .bibliography {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .bibliography h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="logo.png" alt="Your Logo">
+        <h1>Canola Nutrient and Fertilizer Calculator</h1>
+    </div>
+
+    <div class="container">
+        <h2>Nutrient Removal Based on Last Year's Yield</h2>
+        <div class="nutrient">
+            <label for="previousYieldInput">Prev. Year's Yield (bu/acre):</label>
+            <input type="number" id="previousYieldInput" placeholder="Previous year's yield">
+        </div>
+        
+        <div class="nutrient">
+            <label for="omInput">Soil Organic Matter (%):</label>
+            <input type="number" id="omInput" placeholder="Soil Organic Matter percentage">
+        </div>
+        
+        <h2>Calculate Fertilizer Requirements Based on Yield Goal</h2>
+        <div class="nutrient">
+            <label for="yieldGoalInput">Yield Goal (bu/acre):</label>
+            <input type="number" id="yieldGoalInput" placeholder="Yield goal">
+        </div>
+        
+        <button onclick="integratedCalculation()">Calculate</button>
+
+        <div class="result">
+            <div class="card vstack">
+                <h3>Previous Year Nutrient Removal</h3>
+                <p>N: <span id="resultNRemoval"></span> </p>
+                <p>P2O5: <span id="resultP2O5Removal"></span> </p>
+                <p>K2O: <span id="resultK2ORemoval"></span> </p>
+                <p>S: <span id="resultSRemoval"></span> </p>
+            </div>
+            <div class="card vstack">
+                <h3>Uptake Based on Yield Goal</h3>
+                <p>N: <span id="resultNUptake"></span> </p>
+                <p>P2O5: <span id="resultP2O5Uptake"></span> </p>
+                <p>K2O: <span id="resultK2OUptake"></span> </p>
+                <p>S: <span id="resultSUptake"></span> </p>
+            </div>
+            <div class="card vstack">
+                <h3>Fertilizer Requirements</h3>
+                <p>N: <span id="resultNRequired"></span> </p>
+                <p>P2O5: <span id="resultP2O5Required"></span> </p>
+                <p>K2O: <span id="resultK2ORequired"></span> </p>
+                <p>S: <span id="resultSRequired"></span> </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bibliography">
+        <h2>Resources Used</h2>
+        <p>1. Prairie Nutrient Management Calculator. Retrieved from <a href="https://prairienutrientcalculator.info">https://prairienutrientcalculator.info</a></p>
+        <p>2. Canola Digest. (2021, November). How to Increase Yield with Fertilizer. Retrieved from <a href="https://canoladigest.ca/november-2021/how-to-increase-yield-with-fertilizer/">https://canoladigest.ca/november-2021/how-to-increase-yield-with-fertilizer/</a></p>
+        <p>3. Canola Council of Canada. (n.d.). How Much Fertilizer Does Canola Need? Retrieved from <a href="https://www.canolacouncil.org/canola-watch/fundamentals/how-much-fertilizer-does-canola-need/">https://www.canolacouncil.org/canola-watch/fundamentals/how-much-fertilizer-does-canola-need/</a></p>
+        <p>4. Ontario Ministry of Agriculture, Food and Rural Affairs. (n.d.). Soil Fertility: Nitrogen, Phosphorus, and Potassium. Retrieved from <a href="https://omafra.gov.on.ca/english/crops/soils/fertility.html">https://omafra.gov.on.ca/english/crops/soils/fertility.html</a></p>
+        <!-- Add more citations as needed -->
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Canola Nutrient and Fertilizer Calculator | All rights reserved</p>
+    </div>
+
+   
+
+    <script src="nutrientCalculator.js"></script>
+</body>
+</html>
